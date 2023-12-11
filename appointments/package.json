@@ -1,0 +1,22 @@
+{
+  "name": "appointments",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PCConsulting1/tempRepo.git"
+  },
+  "author": "Cody Henry",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PCConsulting1/tempRepo/issues"
+  },
+  "homepage": "https://github.com/PCConsulting1/tempRepo#readme",
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
