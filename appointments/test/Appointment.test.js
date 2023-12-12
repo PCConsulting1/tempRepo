@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { act } from "react-dom/test-utils";
 
 import { Appointment } from "../src/Appointment";
 
@@ -12,7 +13,8 @@ describe("Appointment", () => {
     const component = <Appointment customer={customer} />;
     const container = document.createElement("div");
     document.body.appendChild(container);
-    ReactDOM.createRoot(container).render(component);
+    //act pauses tests until React has rendered
+    act(() => ReactDOM.createRoot(container).render(component));
     expect(document.body.textContent).toContain("Ashley");
   });
 });
