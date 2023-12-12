@@ -4,27 +4,35 @@ import { act } from "react-dom/test-utils";
 
 import { Appointment } from "../src/Appointment";
 
+/* 
+***********dictionary************
+- it: defines a test and gives a description
+- act: pauses tests until React component has rendered
+- expect: defines a value that should be returned
+- beforeEach: assigns or reassigns value to a variable before each test
+ */
+
 /* For React testing, give the describe block the same name as
 the component itself, or the function name */
 describe("Appointment", () => {
-  //define a test and a description
+  let container;
+  beforeEach(() => {
+    container = document.createElement("div");
+    document.body.replaceChildren(container);
+  });
+
+  const render = (component) =>
+    act(() => ReactDOM.createRoot(container).render(component));
+
   it("renders the customer first name", () => {
     const customer = { firstName: "Ashley" };
-    const component = <Appointment customer={customer} />;
-    const container = document.createElement("div");
-    document.body.replaceChildren(container);
-    //act pauses tests until React has rendered
-    act(() => ReactDOM.createRoot(container).render(component));
+    render(<Appointment customer={customer} />);
     expect(document.body.textContent).toContain("Ashley");
   });
-  //tests must run independently from each other
+  //*tests must run independently from each other
   it("renders another customer first name", () => {
     const customer = { firstName: "Jordan" };
-    const component = <Appointment customer={customer} />;
-    const container = document.createElement("div");
-    document.body.replaceChildren(container);
-    //act pauses tests until React has rendered
-    act(() => ReactDOM.createRoot(container).render(component));
+    render(<Appointment customer={customer} />);
     expect(document.body.textContent).toContain("Jordan");
   });
 });
