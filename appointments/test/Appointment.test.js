@@ -47,8 +47,8 @@ describe("AppointmentsDayView", () => {
   let container;
   const today = new Date();
   const twoAppointments = [
-    { startsAt: today.setHours(12, 0) },
-    { startsAt: today.setHours(13, 0) },
+    { startsAt: today.setHours(12, 0), customer: { firstName: "Ashley" } },
+    { startsAt: today.setHours(13, 0), customer: { firstName: "Jordan" } },
   ];
 
   beforeEach(() => {
@@ -80,5 +80,27 @@ describe("AppointmentsDayView", () => {
     const listChildren = document.querySelectorAll("li");
     expect(listChildren[0].textContent).toEqual("12:00");
     expect(listChildren[1].textContent).toEqual("13:00");
+  });
+  it("shows a message if there are no appointments scheduled for that day", () => {
+    render(<AppointmentsDayView appointments={[]} />);
+    expect(document.body.textContent).toContain(
+      "There are no appointments scheduled for today."
+    );
+  });
+  it("selects the first appointment by default", () => {
+    render(<AppointmentsDayView appointments={twoAppointments} />);
+    expect(document.body.textContent).toContain("Ashley");
+  });
+  it("has a button element in each list item", () => {
+    render(<AppointmentsDayView appointments={twoAppointments} />);
+    const buttons = document.querySelectorAll("li > button");
+    expect(buttons).toHaveLength(2);
+    expect(buttons[0].type).toEqual("button");
+  });
+  it("renders another appointment when selected", () => {
+    render(<AppointmentsDayView appointments={twoAppointments} />);
+    const button = document.querySelectorAll("button")[1];
+    act(() => button.click());
+    expect(document.body.textContent).toContain("Jordan");
   });
 });
