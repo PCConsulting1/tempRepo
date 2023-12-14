@@ -3,7 +3,7 @@ import { matcherHint, printExpected, printReceived } from "jest-matcher-utils";
 export const toContainText = (received, expectedText) => {
   const pass = received.textContent.includes(expectedText);
   const sourceHint = () =>
-    matcherHint("toContainText", "element", printExpected(expected), {
+    matcherHint("toContainText", "element", printExpected(expectedText), {
       isNot: pass,
     });
 

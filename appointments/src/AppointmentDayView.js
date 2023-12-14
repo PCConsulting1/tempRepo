@@ -15,28 +15,30 @@ export const Appointment = ({
   <div>
     <h3>Todays appointment at {startsAt}</h3>
     <table>
-      <tr>
-        <th>Customer</th>
-        <td>
-          {customer.firstName} {customer.lastName}
-        </td>
-      </tr>
-      <tr>
-        <th>Phone Number</th>
-        <td>{customer.phoneNumber}</td>
-      </tr>
-      <tr>
-        <th>Stylist</th>
-        <td>{stylist}</td>
-      </tr>
-      <tr>
-        <th>Service</th>
-        <td>{service}</td>
-      </tr>
-      <tr>
-        <th>Notes</th>
-        <td>{notes}</td>
-      </tr>
+      <tbody>
+        <tr>
+          <th>Customer</th>
+          <td>
+            {customer.firstName} {customer.lastName}
+          </td>
+        </tr>
+        <tr>
+          <th>Phone Number</th>
+          <td>{customer.phoneNumber}</td>
+        </tr>
+        <tr>
+          <th>Stylist</th>
+          <td>{stylist}</td>
+        </tr>
+        <tr>
+          <th>Service</th>
+          <td>{service}</td>
+        </tr>
+        <tr>
+          <th>Notes</th>
+          <td>{notes}</td>
+        </tr>
+      </tbody>
     </table>
   </div>
 );
