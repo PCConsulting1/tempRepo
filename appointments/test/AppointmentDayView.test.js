@@ -1,8 +1,7 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
-import { act } from "react-dom/test-utils";
 
 import { Appointment, AppointmentsDayView } from "../src/AppointmentDayView";
+import { initializeReactContainer, render, click } from "./reactTestExtensions";
 
 /* Dictionary 
 
@@ -21,14 +20,9 @@ the component itself, or the function name */
   Assert - Check that expectations are met
 */
 describe("Appointment", () => {
-  let container;
   beforeEach(() => {
-    container = document.createElement("div");
-    document.body.replaceChildren(container);
+    initializeReactContainer();
   });
-
-  const render = (component) =>
-    act(() => ReactDOM.createRoot(container).render(component));
 
   it("renders the customer first name", () => {
     const customer = { firstName: "Ashley" };
@@ -44,7 +38,6 @@ describe("Appointment", () => {
 });
 
 describe("AppointmentsDayView", () => {
-  let container;
   const today = new Date();
   const twoAppointments = [
     { startsAt: today.setHours(12, 0), customer: { firstName: "Ashley" } },
@@ -52,12 +45,8 @@ describe("AppointmentsDayView", () => {
   ];
 
   beforeEach(() => {
-    container = document.createElement("div");
-    document.body.replaceChildren(container);
+    initializeReactContainer();
   });
-
-  const render = (component) =>
-    act(() => ReactDOM.createRoot(container).render(component));
 
   it("renders a div with the right id", () => {
     render(<AppointmentsDayView appointments={[]} />);
@@ -100,7 +89,7 @@ describe("AppointmentsDayView", () => {
   it("renders another appointment when selected", () => {
     render(<AppointmentsDayView appointments={twoAppointments} />);
     const button = document.querySelectorAll("button")[1];
-    act(() => button.click());
+    click(button);
     expect(document.body.textContent).toContain("Jordan");
   });
 });
