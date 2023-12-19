@@ -28,9 +28,6 @@ describe("CustomerForm", () => {
     it("renders as a text box", () => {
       render(<CustomerForm original={blankCustomer} />);
       expect(field(fieldName)).toBeInputFieldOfType("text");
-      // expect(field(fieldName)).not.toBeNull();
-      // expect(field(fieldName).tagName.toLowerCase()).toEqual("input");
-      // expect(field(fieldName).type).toEqual("text");
     });
 
   const itIncludesTheExistingValue = (fieldName, existingValue) =>
