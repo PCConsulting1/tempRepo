@@ -2,13 +2,13 @@ import React from "react";
 import {
   initializeReactContainer,
   render,
-  element,
   form,
   field,
   click,
   submit,
   submitButton,
   change,
+  labelFor,
 } from "./reactTestExtensions";
 
 import { CustomerForm } from "../src/CustomerForm";
@@ -27,9 +27,10 @@ describe("CustomerForm", () => {
   const itRendersAsATextBox = (fieldName) =>
     it("renders as a text box", () => {
       render(<CustomerForm original={blankCustomer} />);
-      expect(field(fieldName)).not.toBeNull();
-      expect(field(fieldName).tagName.toLowerCase()).toEqual("input");
-      expect(field(fieldName).type).toEqual("text");
+      expect(field(fieldName)).toBeInputFieldOfType("text");
+      // expect(field(fieldName)).not.toBeNull();
+      // expect(field(fieldName).tagName.toLowerCase()).toEqual("input");
+      // expect(field(fieldName).type).toEqual("text");
     });
 
   const itIncludesTheExistingValue = (fieldName, existingValue) =>
@@ -48,14 +49,12 @@ describe("CustomerForm", () => {
   const itRendersALabel = (fieldName, text) => {
     it("renders a label", () => {
       render(<CustomerForm original={blankCustomer} />);
-      const label = element(`label[for=${fieldName}]`);
-      expect(label).not.toBeNull();
+      expect(labelFor(fieldName)).not.toBeNull();
     });
 
     it(`renders '${text}' as the label content`, () => {
       render(<CustomerForm original={blankCustomer} />);
-      const label = element(`label[for=${fieldName}]`);
-      expect(label).toContainText(text);
+      expect(labelFor(fieldName)).toContainText(text);
     });
   };
 

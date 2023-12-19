@@ -33,6 +33,8 @@ export const form = (id) => element("form");
 
 export const field = (fieldName) => form().elements[fieldName];
 
+export const labelFor = (fieldName) => element(`label[for=${fieldName}]`);
+
 export const submitButton = () => element("input[type=submit]");
 
 const originalValueProperty = (reactElement) => {
