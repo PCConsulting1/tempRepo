@@ -1,30 +1,27 @@
-import { matcherHint, printExpected, printReceived } from "jest-matcher-utils";
+import { matcherHint, printExpected } from "jest-matcher-utils";
 
-export const toBeInputFieldOfType = (received, expectedType) => {
-  const pass =
-    received &&
-    received.tagName.toLowerCase() === "input" &&
-    received.type === expectedType;
+export const toBeInputFieldOfType = (element, expectedType) => {
+  const pass = element?.tagName === "INPUT" && element.type === expectedType;
 
   const sourceHint = () =>
     matcherHint(
       "toBeInputFieldOfType",
       "element",
       printExpected(expectedType),
-      {
-        isNot: pass,
-      }
+      { isNot: pass }
     );
 
-  const actualHint = () => {
-    if (!received) {
-      return "Actual: element was not found";
+  const receivedText = () => {
+    if (!element) {
+      return "element was not found";
     }
-    if (received.tagName.toLowerCase() !== "input") {
-      return `Actual: <${received.tagName.toLowerCase()}>`;
+    if (element?.tagName.toLowerCase() !== "input") {
+      return `<${element?.tagName.toLowerCase()}>`;
     }
-    return `Actual: <input type="${received.type}">`;
+    return `<input type=${element.type}>`;
   };
+
+  const actualHint = () => `Actual: ${receivedText()}`;
 
   const message = () => [sourceHint(), actualHint()].join("\n\n");
 

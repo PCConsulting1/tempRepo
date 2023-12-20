@@ -1,7 +1,6 @@
 import { toBeInputFieldOfType } from "./toBeInputFieldOfType";
 
 describe("toBeInputFieldOfType matcher", () => {
-  //remove ASCII characters that cause terminal text to have color
   const stripTerminalColor = (text) => text.replace(/\x1B\[\d+m/g, "");
 
   const elementFrom = (text) => {
@@ -9,6 +8,7 @@ describe("toBeInputFieldOfType matcher", () => {
     parent.innerHTML = text;
     return parent.firstChild;
   };
+
   it("returns pass is true when input element of the right type is found", () => {
     const domElement = elementFrom("<input type=text />");
     const result = toBeInputFieldOfType(domElement, "text");
