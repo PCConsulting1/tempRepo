@@ -12,6 +12,11 @@ import { AppointmentForm } from "../src/AppointmentForm";
 describe("AppointmentForm", () => {
   const blankAppointment = { service: "" };
   const services = ["Cut", "Blow-dry"];
+  const today = new Date();
+  const availableTimeSlots = [
+    { startsAt: today.setHours(9, 0, 0, 0) },
+    { startsAt: today.setHours(9, 30, 0, 0) },
+  ];
 
   beforeEach(() => {
     initializeReactContainer();
@@ -26,19 +31,34 @@ describe("AppointmentForm", () => {
     Array.from(element.childNodes, (node) => node.textContent);
 
   it("renders a form", () => {
-    render(<AppointmentForm original={blankAppointment} />);
+    render(
+      <AppointmentForm
+        original={blankAppointment}
+        availableTimeSlots={availableTimeSlots}
+      />
+    );
     expect(form()).not.toBeNull();
   });
 
   describe("service fields", () => {
     it("renders as a select box", () => {
-      render(<AppointmentForm original={blankAppointment} />);
+      render(
+        <AppointmentForm
+          original={blankAppointment}
+          availableTimeSlots={availableTimeSlots}
+        />
+      );
       expect(field("service")).not.toBeNull();
       expect(field("service").tagName.toLowerCase()).toEqual("select");
     });
 
     it("has a blank value as the first value", () => {
-      render(<AppointmentForm original={blankAppointment} />);
+      render(
+        <AppointmentForm
+          original={blankAppointment}
+          availableTimeSlots={availableTimeSlots}
+        />
+      );
       const firstOption = field("service").childNodes[0];
       expect(firstOption.value).toEqual("");
     });
@@ -48,6 +68,7 @@ describe("AppointmentForm", () => {
         <AppointmentForm
           original={blankAppointment}
           selectableServices={services}
+          availableTimeSlots={availableTimeSlots}
         />
       );
       expect(labelsOfAllOptions(field("service"))).toEqual(
@@ -58,7 +79,11 @@ describe("AppointmentForm", () => {
     it("pre-selects the existing value", () => {
       const appointment = { service: "Blow-dry" };
       render(
-        <AppointmentForm selectableServices={services} original={appointment} />
+        <AppointmentForm
+          selectableServices={services}
+          original={appointment}
+          availableTimeSlots={availableTimeSlots}
+        />
       );
       const option = findOption(field("service"), "Blow-dry");
       expect(option.selected).toBe(true);
@@ -67,7 +92,12 @@ describe("AppointmentForm", () => {
 
   describe("time slot table", () => {
     it("renders a table for time slots with an id", () => {
-      render(<AppointmentForm original={blankAppointment} />);
+      render(
+        <AppointmentForm
+          original={blankAppointment}
+          availableTimeSlots={availableTimeSlots}
+        />
+      );
       expect(element("table#time-slots")).not.toBeNull();
     });
 
@@ -77,6 +107,7 @@ describe("AppointmentForm", () => {
           original={blankAppointment}
           salonOpensAt={9}
           salonClosesAt={11}
+          availableTimeSlots={availableTimeSlots}
         />
       );
       const timesOfDayHeadings = elements("tbody >* th");
@@ -86,7 +117,12 @@ describe("AppointmentForm", () => {
     });
 
     it("renders an empty cell at the start of the header row", () => {
-      render(<AppointmentForm original={blankAppointment} />);
+      render(
+        <AppointmentForm
+          original={blankAppointment}
+          availableTimeSlots={availableTimeSlots}
+        />
+      );
       const headerRow = element("thead > tr");
       expect(headerRow.firstChild).toContainText("");
     });
@@ -94,7 +130,11 @@ describe("AppointmentForm", () => {
     it("renders a week of available dates", () => {
       const specificDate = new Date(2018, 11, 1);
       render(
-        <AppointmentForm original={blankAppointment} today={specificDate} />
+        <AppointmentForm
+          original={blankAppointment}
+          today={specificDate}
+          availableTimeSlots={availableTimeSlots}
+        />
       );
       const dates = elements("thead >* th:not(:first-child)");
       expect(dates).toHaveLength(7);
@@ -125,6 +165,13 @@ describe("AppointmentForm", () => {
         />
       );
       expect(cellsWithRadioButtons()).toEqual([0, 7, 8]);
+    });
+
+    it("does not render radio buttons for unavailable time slots", () => {
+      render(
+        <AppointmentForm original={blankAppointment} availableTimeSlots={[]} />
+      );
+      expect(elements("input[type=radio]")).toHaveLength(0);
     });
   });
 });
