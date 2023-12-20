@@ -13,7 +13,8 @@ const dailyTimeSlots = (salonOpensAt, salonClosesAt) => {
   return timeIncrements(totalSlots, startTime, increment);
 };
 
-toTimeValue = (timestamp) => new Date(timestamp).toTimeString().substring(0, 5);
+const toTimeValue = (timestamp) =>
+  new Date(timestamp).toTimeString().substring(0, 5);
 
 const weeklyDateValues = (startDate) => {
   const midnight = startDate.setHours(0, 0, 0, 0);
@@ -123,7 +124,7 @@ export const AppointmentForm = ({
   };
   return (
     <form onSubmit={handleSubmit}>
-      <select name="service" value={original.service} readOnly>
+      <select name="service" value={appointment.service} readOnly>
         <option />
         {selectableServices.map((s) => (
           <option key={s}>{s}</option>
