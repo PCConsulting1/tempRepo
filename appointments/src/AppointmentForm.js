@@ -33,7 +33,6 @@ const TimeSlotTable = ({ salonOpensAt, salonClosesAt }) => {
 export const AppointmentForm = ({
   original,
   selectableServices,
-  service,
   salonOpensAt,
   salonClosesAt,
 }) => (
