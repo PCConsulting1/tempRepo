@@ -13,6 +13,15 @@ import {
 
 import { CustomerForm } from "../src/CustomerForm";
 
+const spy = () => {
+  let receivedArguments;
+  return {
+    fn: (...args) => (receivedArguments = args),
+    receivedArguments: () => receivedArguments,
+    receivedArgument: (n) => receivedArguments[n],
+  };
+};
+
 describe("CustomerForm", () => {
   const blankCustomer = {
     firstName: "",
@@ -57,15 +66,11 @@ describe("CustomerForm", () => {
 
   const itSubmitsExistingValue = (fieldName, existingValue) =>
     it("saves existing value when submitted", () => {
-      expect.hasAssertions();
+      const submitSpy = spy();
       const customer = { [fieldName]: existingValue };
-      render(
-        <CustomerForm
-          original={customer}
-          onSubmit={(props) => expect(props[fieldName]).toEqual(existingValue)}
-        />
-      );
+      render(<CustomerForm original={customer} onSubmit={submitSpy.fn} />);
       click(submitButton());
+      expect(submitSpy).toBeCalledWith(customer);
     });
 
   const itSubmitsNewValue = (fieldName, existingValue) =>
